@@ -1,17 +1,17 @@
-from flask import Flask, render_template, request
+import pygame
 
-app = Flask(__name__)
-@app.route('/')
-def index():  # put application's code here
-    return render_template('index.html')
+# Initialize the pygame
+pygame.init()
 
-@app.route('/strona2')
-def strona2():
-    return render_template('graj.html')
+# Create the screen
+screen = pygame.display.set_mode((800, 600))
 
-if __name__ == '__main__':
-    app.run()
+# Title and Icon
+pygame.display.set_caption('Escape room')
 
-
-
-
+# Game Loop
+runing = True
+while runing:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
