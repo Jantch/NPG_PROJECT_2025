@@ -1,12 +1,12 @@
 import pygame
-from pygame import font
+
 
 
 class Inventory:
     def __init__(self):
         self.items = []
         self.open = False
-
+        self.font = pygame.font.SysFont(None, 24)
 
     def toggle(self):
         self.open = not self.open
@@ -20,5 +20,6 @@ class Inventory:
             pygame.draw.rect(screen, (50, 50, 50), (100, 100, 300, 200))
             # wypisz przedmioty
             for i, item in enumerate(self.items):
-                text = font.render(item, True, (255, 255, 255))
-                screen.blit(text, (110, 110 + i * 30))
+                item.draw_icon(screen, 110, 110 + i * 40)
+                text = self.font.render(item.name, True, (255, 255, 255))
+                screen.blit(text, (150, 110 + i * 40 + 8))
