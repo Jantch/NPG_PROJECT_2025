@@ -40,7 +40,7 @@ def handle_click():
     mouse_pos = pygame.mouse.get_pos()
 
 def open_tictactoe():
-    subprocess.Popen(['python', 'minigames/tictactoe/game.py'])
+    subprocess.run(['python', 'minigames/tictactoe/game.py'])
 
 
 def main():
