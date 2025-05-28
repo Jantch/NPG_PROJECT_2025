@@ -26,8 +26,9 @@ equipment = equipment_icon_image.get_rect(topleft=(10, 10))
 
 #Testowa ikona kółka i krzyrzyk
 tictactoe_image = pygame.image.load("assets/kolko_krzyzyk_icon.jpg").convert_alpha()
-tictactoe_icon_image = pygame.transform.scale(tictactoe_image, (100, 100))
-tictactoe = tictactoe_icon_image.get_rect(midbottom=(WIDTH // 2, HEIGHT - 10))
+tictactoe_image.set_alpha(0)
+tictactoe_icon_image = pygame.transform.scale(tictactoe_image, (225, 125))
+tictactoe = tictactoe_icon_image.get_rect(midbottom=(WIDTH // 3.2, HEIGHT - 7))
 
 # Skala ikon
 icon_size = (100, 100)
@@ -58,13 +59,15 @@ def main():
                 #handle_click()
 
 
-        #otwieranie ekwipunku
+
             if event.type == pygame.MOUSEBUTTONDOWN:
+                # otwieranie ekwipunku
                 if equipment.collidepoint(event.pos):
                     inv.toggle()
-
+                # otwieranie minigry tictactoe
                 if tictactoe.collidepoint(event.pos):
                     open_tictactoe()
+
 
         SCREEN.blit(background, (0, 0))  # Rysuj tło
         SCREEN.blit(equipment_icon_image, equipment)  # Rysuj ikonę ekwipunku
