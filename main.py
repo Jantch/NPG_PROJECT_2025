@@ -1,7 +1,7 @@
 import pygame
 import sys
-from templates.inventory import Inventory
-from templates.item import Item
+from game_elements.inventory import Inventory
+from game_elements.item import Item
 import subprocess
 
 pygame.init()
