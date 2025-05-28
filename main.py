@@ -55,10 +55,8 @@ def main():
             if event.type == pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            #if event.type == pygame.MOUSEBUTTONDOWN:
-                #handle_click()
-
-
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                handle_click()
 
             if event.type == pygame.MOUSEBUTTONDOWN:
                 # otwieranie ekwipunku
