@@ -12,13 +12,22 @@ background_next_1 = pygame.image.load(image_path_background_next_1)
 
 # Ustawienie ścieżek do przycisków
 
-# Pierwsze zdjecie do przycisku
+# Pierwsze zdjecie do przycisku play
 image_path_play_button_1 = os.path.join("..", "assets", "images", "Play_Button_1.png")
 play_button_img_1 = pygame.image.load(image_path_play_button_1)
 play_button_img_1 = pygame.transform.scale(play_button_img_1, (300, 100))
 
-# Drugie zdjecie do przycisku
+# Drugie zdjecie do przycisku play
 image_path_play_button_2 = os.path.join("..", "assets", "images", "Play_Button_2.png")
 play_button_img_2 = pygame.image.load(image_path_play_button_2)
 play_button_img_2 = pygame.transform.scale(play_button_img_2, (300, 100))
 
+# Pierwsze zdjecie do przycisku dzwięku
+image_path_sound_1 = os.path.join("..", "assets", "images", "Audio_button_1.png")
+sound_button_img_1 = pygame.image.load(image_path_sound_1)
+sound_button_img_1 = pygame.transform.scale(sound_button_img_1, (50, 50))
+
+# Drugie zdjecie do przycisku dzwięku
+image_path_sound_2 = os.path.join("..", "assets", "images", "Audio_button_2.png")
+sound_button_img_2 = pygame.image.load(image_path_sound_2)
+sound_button_img_2 = pygame.transform.scale(sound_button_img_2, (50, 50))
