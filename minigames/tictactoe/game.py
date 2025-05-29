@@ -89,6 +89,7 @@ waiting = False
 # --- GŁÓWNA PĘTLA ---
 running = True
 while running:
+    result = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -145,6 +146,7 @@ while running:
         # zmień treść na dowolną:
         if winner == 'X':
             msg = "Trafiłeś! Krzyżyk wygrywa!"
+            result = 1
         elif winner == 'O':
             msg = "Komputer wygrywa..."
         else:
@@ -162,7 +164,8 @@ while running:
 
 
 
+
     pygame.display.flip()
 
 pygame.quit()
-sys.exit()
+sys.exit(result)

@@ -14,6 +14,9 @@ class Inventory:
     def add_item(self, item):
         self.items.append(item)
 
+    def if_in_inventory(self, item):
+        return item in self.items
+
     def draw(self, screen):
         if self.open:
             # narysuj tło ekwipunku
