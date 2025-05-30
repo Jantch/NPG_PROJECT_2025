@@ -1,152 +1,155 @@
-import pygame
-import sys
-import random
+import pygame, sys, random, os
 
-# Inicjalizacja Pygame
+# --- Inicjalizacja Pygame ---
 pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 300, 300
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-pygame.display.set_caption("Puzzle 3x3 - Przeciągnij, aby zamienić")
+pygame.display.set_caption("Puzzle 3x3 z ramką")
+clock = pygame.time.Clock()
 
-# Definicja kolorów RGB
-RED    = (255,   0,   0)
-GREEN  = (  0, 255,   0)
-BLUE   = (  0,   0, 255)
-YELLOW = (255, 255,   0)
-ORANGE = (255, 165,   0)
-PURPLE = (128,   0, 128)
-CYAN   = (  0, 255, 255)
-MAGENTA= (255,   0, 255)
-BROWN  = (165,  42,  42)
-
+# --- Kolory kwadratów ---
+RED     = (255,   0,   0)
+GREEN   = (  0, 255,   0)
+BLUE    = (  0,   0, 255)
+YELLOW  = (255, 255,   0)
+ORANGE  = (255, 165,   0)
+PURPLE  = (128,   0, 128)
+CYAN    = (  0, 255, 255)
+MAGENTA = (255,   0, 255)
+BROWN   = (165,  42,  42)
 colors = [RED, GREEN, BLUE, YELLOW, ORANGE, PURPLE, CYAN, MAGENTA, BROWN]
 
-# Docelowy układ kolorów: lista 9 kolorów (kolejno po wierszach)
-target_order = [
-    RED, GREEN, BLUE,
-    YELLOW, ORANGE, PURPLE,
-    CYAN, MAGENTA, BROWN
-]
+# Docelowy układ kolorów (po wierszach)
+target_order = colors.copy()
 
-# Losowy początkowy układ, różny od docelowego
-initial_colors = colors.copy()
-random.shuffle(initial_colors)
+# Losowy początkowy układ różny od docelowego
+def shuffled_colors():
+    arr = colors.copy()
+    random.shuffle(arr)
+    return arr
+initial_colors = shuffled_colors()
 while initial_colors == target_order:
-    random.shuffle(initial_colors)
+    initial_colors = shuffled_colors()
 
-cell_size = SCREEN_WIDTH // 3  # Rozmiar każdego kwadratu: 100x100 pikseli
+# --- Wczytanie ramki z pełnym wsparciem alfa ---
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+IMAGE_DIR = os.path.join(SCRIPT_DIR, "static")
+frame_path = os.path.join(IMAGE_DIR, "frame.png")
+frame_img = pygame.image.load(frame_path).convert_alpha()
+# Skaluje ramkę do wymiarów całego ekranu
+frame_img = pygame.transform.smoothscale(frame_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+# Margines wewnątrz ramki i rozmiar pól w pikselach
+FRAME_BORDER = 39
+INNER_SIZE = SCREEN_WIDTH - 2 * FRAME_BORDER
+CELL_SIZE = INNER_SIZE // 3
 
 class Square:
     def __init__(self, row, col, color):
-        # Współrzędne w siatce (wiersz, kolumna) i przypisany kolor
         self.row = row
         self.col = col
         self.color = color
-        # Prostokąt do rysowania: umieszczony początkowo na podstawie (row, col)
-        self.rect = pygame.Rect(col * cell_size, row * cell_size, cell_size, cell_size)
-        self.dragging = False  # flaga przeciągania
+        # Pozycja wewnątrz ramki
+        self.rect = pygame.Rect(
+            FRAME_BORDER + col * CELL_SIZE,
+            FRAME_BORDER + row * CELL_SIZE,
+            CELL_SIZE,
+            CELL_SIZE
+        )
+        self.dragging = False
 
     def draw(self, surface):
-        # Rysujemy kolorowy kwadrat w miejscu prostokąta
+        # Rysujemy kolorowy kwadrat
         pygame.draw.rect(surface, self.color, self.rect)
 
-# Tworzymy listę kwadratów według początkowego układu kolorów
+# Tworzymy obiekty Square
 squares = []
-for index, color in enumerate(initial_colors):
-    row = index // 3
-    col = index % 3
-    square = Square(row, col, color)
-    squares.append(square)
+for idx, color in enumerate(initial_colors):
+    r, c = divmod(idx, 3)
+    squares.append(Square(r, c, color))
 
-font = pygame.font.SysFont(None, 36)  # Czcionka do komunikatu końcowego
-
+font = pygame.font.SysFont(None, 36)
 running = True
-selected_square = None
+selected = None
 offset_x = offset_y = 0
 
 while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
+    for ev in pygame.event.get():
+        if ev.type == pygame.QUIT:
             running = False
 
-        # Kliknięcie myszy
-        elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
-            for square in squares:
-                if square.rect.collidepoint(event.pos):
-                    selected_square = square
-                    square.dragging = True
-                    mouse_x, mouse_y = event.pos
-                    # Obliczamy przesunięcie między położeniem prostokąta a kursorem
-                    offset_x = square.rect.x - mouse_x
-                    offset_y = square.rect.y - mouse_y
+        elif ev.type == pygame.MOUSEBUTTONDOWN and ev.button == 1:
+            for sq in squares:
+                if sq.rect.collidepoint(ev.pos):
+                    selected = sq
+                    sq.dragging = True
+                    mx, my = ev.pos
+                    offset_x = sq.rect.x - mx
+                    offset_y = sq.rect.y - my
                     break
 
-        # Zwolnienie przycisku myszy
-        elif event.type == pygame.MOUSEBUTTONUP and selected_square:
-            selected_square.dragging = False
-
-            # 1) Wyznacz pole docelowe na podstawie pozycji kursora
-            mouse_x, mouse_y = event.pos
-            target_col = mouse_x // cell_size
-            target_row = mouse_y // cell_size
-
-            # 2) Jeżeli to pole jest w siatce, znajdź kwadrat o tych współrzędnych
-            if 0 <= target_row < 3 and 0 <= target_col < 3:
+        elif ev.type == pygame.MOUSEBUTTONUP and selected:
+            selected.dragging = False
+            mx, my = ev.pos
+            # Wyznacz pole docelowe względem ramki
+            tx = (mx - FRAME_BORDER) // CELL_SIZE
+            ty = (my - FRAME_BORDER) // CELL_SIZE
+            if 0 <= ty < 3 and 0 <= tx < 3:
                 for other in squares:
-                    if other.row == target_row and other.col == target_col \
-                            and other is not selected_square:
-                        # 3) Zamień ich row i col
-                        selected_square.row, other.row = other.row, selected_square.row
-                        selected_square.col, other.col = other.col, selected_square.col
-                        # 4) Zaktualizuj ich recty
-                        other.rect.topleft = (other.col * cell_size, other.row * cell_size)
+                    if other is not selected and other.row == ty and other.col == tx:
+                        # Zamiana pozycji
+                        selected.row, other.row = other.row, selected.row
+                        selected.col, other.col = other.col, selected.col
+                        other.rect.topleft = (
+                            FRAME_BORDER + other.col * CELL_SIZE,
+                            FRAME_BORDER + other.row * CELL_SIZE
+                        )
                         break
-
-            # 5) Na koniec zawsze “wskakujemy” przeciągany kwadrat na swoje pole
-            selected_square.rect.topleft = (
-                selected_square.col * cell_size,
-                selected_square.row * cell_size
+            # Przywracamy wybrany kwadrat na aktualne pole
+            selected.rect.topleft = (
+                FRAME_BORDER + selected.col * CELL_SIZE,
+                FRAME_BORDER + selected.row * CELL_SIZE
             )
-            selected_square = None
+            selected = None
 
-        # Ruch myszy (ciągnięcie)
-        elif event.type == pygame.MOUSEMOTION:
-            if selected_square and selected_square.dragging:
-                mouse_x, mouse_y = event.pos
-                selected_square.rect.x = mouse_x + offset_x
-                selected_square.rect.y = mouse_y + offset_y
+        elif ev.type == pygame.MOUSEMOTION and selected and selected.dragging:
+            mx, my = ev.pos
+            selected.rect.x = mx + offset_x
+            selected.rect.y = my + offset_y
 
-    # Rysujemy tło i siatkę
-    screen.fill((255, 255, 255))  # białe tło
-    # Rysujemy wszystkie kwadraty
-    for square in squares:
-        square.draw(screen)
-    # Rysujemy obramowanie - linie siatki
+    # Rysowanie tła i ramki
+    screen.fill((255, 255, 255))
+    screen.blit(frame_img, (0, 0))
+    # Rysowanie kwadratów wewnątrz ramki
+    for sq in squares:
+        sq.draw(screen)
+
+    # Opcjonalne linie siatki wewnątrz ramki
     line_color = (0, 0, 0)
     for i in range(1, 3):
-        # pionowa linia
-        pygame.draw.line(screen, line_color, (i * cell_size, 0), (i * cell_size, SCREEN_HEIGHT), 2)
-        # pozioma linia
-        pygame.draw.line(screen, line_color, (0, i * cell_size), (SCREEN_WIDTH, i * cell_size), 2)
+        x = FRAME_BORDER + i * CELL_SIZE
+        y = FRAME_BORDER + i * CELL_SIZE
+        pygame.draw.line(screen, line_color, (x, FRAME_BORDER), (x, SCREEN_HEIGHT - FRAME_BORDER), 2)
+        pygame.draw.line(screen, line_color, (FRAME_BORDER, y), (SCREEN_WIDTH - FRAME_BORDER, y), 2)
 
-    # Sprawdzamy, czy ułożono poprawny wzór
+    # Sprawdzenie poprawności ułożenia
     solved = True
-    for square in squares:
-        index = square.row * 3 + square.col
-        if square.color != target_order[index]:
+    for sq in squares:
+        idx = sq.row * 3 + sq.col
+        if sq.color is not target_order[idx]:
             solved = False
             break
 
     if solved:
-        # Wyświetlamy komunikat i kończymy grę po chwili
-        text = font.render("Gratulacje, ułożyłeś wzór!", True, (0, 0, 0))
-        text_rect = text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2))
-        screen.blit(text, text_rect)
+        msg = font.render("Gratulacje!", True, (0, 0, 0))
+        rect = msg.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2))
+        screen.blit(msg, rect)
         pygame.display.flip()
-        pygame.time.wait(3000)  # pauza 3 sekundy
+        pygame.time.wait(2000)
         running = False
 
     pygame.display.flip()
+    clock.tick(60)
 
 pygame.quit()
 sys.exit()
