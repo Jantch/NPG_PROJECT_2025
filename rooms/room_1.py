@@ -18,11 +18,11 @@ DARK_GRAY = (20, 20, 20)
 HIGHLIGHT = (100, 100, 255)
 
 # Ładowanie grafik
-background = pygame.image.load("assets/background.png")
+background = pygame.image.load("../assets/background.png")
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
 
 #testowa ikona ekwipunku
-equipment_image = pygame.image.load("assets/equipment.jpg").convert_alpha()
+equipment_image = pygame.image.load("../assets/equipment.jpg").convert_alpha()
 equipment_icon_image = pygame.transform.scale(equipment_image, (100, 100))
 equipment = equipment_icon_image.get_rect(topleft=(10, 10))
 
@@ -31,7 +31,7 @@ tictactoe_hitbox = pygame.Rect(110, 590, 150, 150)
 
 
 #Testowa ikona klucza nr 1
-key_1_image = pygame.image.load("assets/key.jpg").convert_alpha()
+key_1_image = pygame.image.load("../assets/key.jpg").convert_alpha()
 key_1_image.set_alpha(250)
 key_1_icon_image = pygame.transform.scale(key_1_image, (100, 100))
 key_1 = key_1_icon_image.get_rect(midbottom=(WIDTH // 3.2, HEIGHT - 7))
@@ -58,7 +58,7 @@ def open_colors_game():
 def main():
     tictactoe_mystery = Mystery('tictactoe')
     colors_game_mystery = Mystery('colors_game')
-    key_1_item = Item("Klucz", "assets/key.jpg")
+    key_1_item = Item("Klucz", "../assets/key.jpg")
     clock = pygame.time.Clock()
     inv = Inventory()
     while True:
