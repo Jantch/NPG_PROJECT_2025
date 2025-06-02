@@ -1,0 +1,104 @@
+Index: Menu/inicjalization_of_assets.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import os\r\n\r\nimport pygame\r\n\r\n# Ścieżka do tła\r\nimage_path_background = os.path.join(\"..\", \"assets\", \"images\", \"background.png\")\r\nbackground = pygame.image.load(image_path_background)\r\n\r\n# Ścieżka do tła przejścia\r\nimage_path_background_2 = os.path.join(\"..\", \"assets\", \"images\", \"background_2.png\")\r\nbackground_2 = pygame.image.load(image_path_background_2)\r\n\r\n# Ścieżka do tła w następnym levelu\r\nimage_path_background_next_1 = os.path.join(\"..\", \"assets\", \"images\", \"temporary_background.jpg\")\r\nbackground_next_1 = pygame.image.load(image_path_background_next_1)\r\n\r\n# Ustawienie ścieżek do przycisków\r\n\r\n# Pierwsze zdjecie do przycisku play\r\nimage_path_play_button_1 = os.path.join(\"..\", \"assets\", \"images\", \"Play_Button_1.png\")\r\nplay_button_img_1 = pygame.image.load(image_path_play_button_1)\r\nplay_button_img_1 = pygame.transform.scale(play_button_img_1, (300, 100))\r\n\r\n# Drugie zdjecie do przycisku play\r\nimage_path_play_button_2 = os.path.join(\"..\", \"assets\", \"images\", \"Play_Button_2.png\")\r\nplay_button_img_2 = pygame.image.load(image_path_play_button_2)\r\nplay_button_img_2 = pygame.transform.scale(play_button_img_2, (300, 100))\r\n\r\n# Pierwsze zdjecie do przyciku exit\r\nimage_path_exit_button_1 = os.path.join(\"..\", \"assets\", \"images\", \"Exit_Button_1.png\")\r\nexit_button_img_1 = pygame.image.load(image_path_exit_button_1)\r\nexit_button_img_1 = pygame.transform.scale(exit_button_img_1, (300, 100))\r\n\r\n# Drugie zdjecie do przyciku exit\r\nimage_path_exit_button_2 = os.path.join(\"..\", \"assets\", \"images\", \"Exit_Button_2.png\")\r\nexit_button_img_2 = pygame.image.load(image_path_exit_button_2)\r\nexit_button_img_2 = pygame.transform.scale(exit_button_img_2, (300, 100))\r\n\r\n\r\n# Drugie zdje\r\n\r\n# Pierwsze zdjecie do przycisku dzwięku\r\nimage_path_sound_1 = os.path.join(\"..\", \"assets\", \"images\", \"Audio_button_1.png\")\r\nsound_button_img_1 = pygame.image.load(image_path_sound_1)\r\nsound_button_img_1 = pygame.transform.scale(sound_button_img_1, (50, 50))\r\n\r\n# Drugie zdjecie do przycisku dzwięku\r\nimage_path_sound_2 = os.path.join(\"..\", \"assets\", \"images\", \"Audio_button_2.png\")\r\nsound_button_img_2 = pygame.image.load(image_path_sound_2)\r\nsound_button_img_2 = pygame.transform.scale(sound_button_img_2, (50, 50))
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Menu/inicjalization_of_assets.py b/Menu/inicjalization_of_assets.py
+--- a/Menu/inicjalization_of_assets.py	(revision 73ccbdad66cdf31a4e00ed7c065e1f7361b2cf6f)
++++ b/Menu/inicjalization_of_assets.py	(date 1748841634629)
+@@ -27,14 +27,14 @@
+ play_button_img_2 = pygame.transform.scale(play_button_img_2, (300, 100))
+ 
+ # Pierwsze zdjecie do przyciku exit
+-image_path_exit_button_1 = os.path.join("..", "assets", "images", "Exit_Button_1.png")
++image_path_exit_button_1 = os.path.join("..", "assets", "images", "back_button_1.png")
+ exit_button_img_1 = pygame.image.load(image_path_exit_button_1)
+-exit_button_img_1 = pygame.transform.scale(exit_button_img_1, (300, 100))
++exit_button_img_1 = pygame.transform.scale(exit_button_img_1, (50, 50))
+ 
+ # Drugie zdjecie do przyciku exit
+-image_path_exit_button_2 = os.path.join("..", "assets", "images", "Exit_Button_2.png")
++image_path_exit_button_2 = os.path.join("..", "assets", "images", "back_button_2.png")
+ exit_button_img_2 = pygame.image.load(image_path_exit_button_2)
+-exit_button_img_2 = pygame.transform.scale(exit_button_img_2, (300, 100))
++exit_button_img_2 = pygame.transform.scale(exit_button_img_2, (50, 50))
+ 
+ 
+ # Drugie zdje
+Index: Menu/starting_menu.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import sys\r\nfrom inicjalization_of_assets import *\r\nfrom animation_of_transition import transition_animation\r\n\r\n# Inicjalizacja Pygame\r\npygame.init()\r\n\r\n# Ustawienia okna\r\nSCREEN_WIDTH = 512\r\nSCREEN_HEIGHT = 768\r\nscreen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))\r\npygame.display.set_caption(\"Escaperooms\")\r\n\r\n# Ustawienie tła\r\nbackground = pygame.transform.smoothscale(background, (SCREEN_WIDTH, SCREEN_HEIGHT))\r\n\r\n# Ustawienie tła do przejścia\r\nbackground_2 = pygame.transform.smoothscale(background_2, (SCREEN_WIDTH, SCREEN_HEIGHT))\r\n\r\n# Ustawienie tła do natępnego pokoju\r\nbackground_next_1 = pygame.transform.smoothscale(background_next_1, (SCREEN_WIDTH, SCREEN_HEIGHT))\r\n\r\nif_button_display = True\r\nif_other_button_display = True\r\n\r\n# Ustawienie przycisku play\r\nplay_button = play_button_img_1.get_rect(topleft=(110, 190))\r\n\r\n# Ustawienie przycisku exit\r\nexit_button = exit_button_img_1.get_rect(topleft=(110, 300))\r\n\r\n\r\n# Ustawienie przycisku od dzwięku\r\nsound_button = sound_button_img_1.get_rect(topleft=(25, 700))\r\ncurrent_sound_button_im = sound_button_img_1\r\n\r\n# Główna pętla gry\r\nrunning = True\r\nwhile running:\r\n\r\n    mouse_pos = pygame.mouse.get_pos()\r\n\r\n    for event in pygame.event.get():\r\n        if event.type == pygame.QUIT:\r\n            running = False\r\n\r\n        if event.type == pygame.MOUSEBUTTONDOWN:\r\n\r\n            if play_button.collidepoint(event.pos):\r\n                background = background_2\r\n                transition_animation(screen, background, background_next_1)\r\n                background = background_next_1\r\n                if_button_display = False\r\n\r\n            if exit_button.collidepoint(event.pos):\r\n                running = False\r\n\r\n            if sound_button.collidepoint(event.pos):\r\n                if current_sound_button_im == sound_button_img_1:\r\n                    current_sound_button_im = sound_button_img_2\r\n                else:\r\n                    current_sound_button_im = sound_button_img_1\r\n\r\n    # Rysowanie tła\r\n    screen.blit(background, (0, 0))\r\n\r\n    if if_button_display:\r\n\r\n        # Rysowanie przycisku play\r\n        if play_button.collidepoint(mouse_pos):\r\n            screen.blit(background_2, (0, 0))\r\n            if_other_button_display = False\r\n            screen.blit(play_button_img_2, play_button.topleft)\r\n        else:\r\n            if_other_button_display = True\r\n            screen.blit(play_button_img_1, play_button.topleft)\r\n\r\n        # Rsowanie pozostałych przycisków w grze\r\n        if if_other_button_display:\r\n\r\n            # Rysowanie przycisku play\r\n            if exit_button.collidepoint(mouse_pos):\r\n                screen.blit(exit_button_img_2, exit_button.topleft)\r\n            else:\r\n                screen.blit(exit_button_img_1, exit_button.topleft)\r\n\r\n\r\n            # Rysowanie przycisku sound\r\n            screen.blit(current_sound_button_im, sound_button.topleft)\r\n\r\n    # Aktualizacja ekranu\r\n    pygame.display.flip()\r\n\r\n# Zakończenie\r\npygame.quit()\r\nsys.exit()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Menu/starting_menu.py b/Menu/starting_menu.py
+--- a/Menu/starting_menu.py	(revision 73ccbdad66cdf31a4e00ed7c065e1f7361b2cf6f)
++++ b/Menu/starting_menu.py	(date 1748842153271)
+@@ -24,14 +24,14 @@
+ if_other_button_display = True
+ 
+ # Ustawienie przycisku play
+-play_button = play_button_img_1.get_rect(topleft=(110, 190))
++play_button = play_button_img_1.get_rect(topleft=(120, 510))
+ 
+ # Ustawienie przycisku exit
+-exit_button = exit_button_img_1.get_rect(topleft=(110, 300))
++exit_button = exit_button_img_1.get_rect(topleft=(25, 25))
+ 
+ 
+ # Ustawienie przycisku od dzwięku
+-sound_button = sound_button_img_1.get_rect(topleft=(25, 700))
++sound_button = sound_button_img_1.get_rect(topleft=(440, 25))
+ current_sound_button_im = sound_button_img_1
+ 
+ # Główna pętla gry
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"0f521e8d-7421-49bc-bd42-0e2a87ba7c8d\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Menu/animation_of_transition.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Menu/animation_of_transition.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Menu/inicjalization_of_assets.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Menu/inicjalization_of_assets.py\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Menu/starting_menu.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Menu/starting_menu.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 2\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"2xjVtjojHiWlyObthMPdHzqPqEw\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">{\r\n  &quot;keyToString&quot;: {\r\n    &quot;Python.inicjalization_of_assets.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.menu_startowe.executor&quot;: &quot;Run&quot;,\r\n    &quot;Python.starting_menu.executor&quot;: &quot;Run&quot;,\r\n    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,\r\n    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,\r\n    &quot;git-widget-placeholder&quot;: &quot;tworzenie__ekranu__startowego&quot;,\r\n    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;\r\n  }\r\n}</component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"0f521e8d-7421-49bc-bd42-0e2a87ba7c8d\" name=\"Changes\" comment=\"\" />\r\n      <created>1748451686650</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1748451686650</updated>\r\n    </task>\r\n    <servers />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 73ccbdad66cdf31a4e00ed7c065e1f7361b2cf6f)
++++ b/.idea/workspace.xml	(date 1748841979690)
+@@ -5,8 +5,9 @@
+   </component>
+   <component name="ChangeListManager">
+     <list default="true" id="0f521e8d-7421-49bc-bd42-0e2a87ba7c8d" name="Changes" comment="">
++      <change afterPath="$PROJECT_DIR$/assets/images/back_button_1.png" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/assets/images/back_button_2.png" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/Menu/animation_of_transition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Menu/animation_of_transition.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/Menu/inicjalization_of_assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Menu/inicjalization_of_assets.py" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/Menu/starting_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Menu/starting_menu.py" afterDir="false" />
+     </list>
+@@ -23,8 +24,25 @@
+     </option>
+   </component>
+   <component name="Git.Settings">
++    <option name="RECENT_BRANCH_BY_REPOSITORY">
++      <map>
++        <entry key="$PROJECT_DIR$" value="tworzenie_ekranu_startowego" />
++      </map>
++    </option>
+     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+   </component>
++  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
++  "lastFilter": {
++    "state": "OPEN",
++    "assignee": "cNx-302"
++  }
++}]]></component>
++  <component name="GithubPullRequestsUISettings"><![CDATA[{
++  "selectedUrlAndAccountId": {
++    "url": "https://github.com/Jantch/NPG_PROJECT_2025.git",
++    "accountId": "4f12156f-be21-4867-ba0a-9e4afbd59b0b"
++  }
++}]]></component>
+   <component name="ProjectColorInfo">{
+   &quot;associatedIndex&quot;: 2
+ }</component>

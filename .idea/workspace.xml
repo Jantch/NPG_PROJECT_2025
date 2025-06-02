@@ -6,7 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0f521e8d-7421-49bc-bd42-0e2a87ba7c8d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Menu/animation_of_transition.py" beforeDir="false" afterPath="$PROJECT_DIR$/Menu/animation_of_transition.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Menu/inicjalization_of_assets.py" beforeDir="false" afterPath="$PROJECT_DIR$/Menu/inicjalization_of_assets.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Menu/starting_menu.py" beforeDir="false" afterPath="$PROJECT_DIR$/Menu/starting_menu.py" afterDir="false" />
     </list>
@@ -25,6 +24,18 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "cNx-302"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Jantch/NPG_PROJECT_2025.git",
+    "accountId": "4f12156f-be21-4867-ba0a-9e4afbd59b0b"
+  }
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>

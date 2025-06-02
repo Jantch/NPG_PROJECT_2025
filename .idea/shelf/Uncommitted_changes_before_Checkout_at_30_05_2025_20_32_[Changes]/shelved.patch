@@ -1,0 +1,84 @@
+Index: .idea/vcs.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"VcsDirectoryMappings\">\r\n    <mapping directory=\"\" vcs=\"Git\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/vcs.xml b/.idea/vcs.xml
+--- a/.idea/vcs.xml	(revision a13813cacb511237d7be9850ea0b4ca462837bf2)
++++ b/.idea/vcs.xml	(date 1748629741958)
+@@ -2,5 +2,6 @@
+ <project version="4">
+   <component name="VcsDirectoryMappings">
+     <mapping directory="" vcs="Git" />
++    <mapping directory="$PROJECT_DIR$/Room_1" vcs="Git" />
+   </component>
+ </project>
+\ No newline at end of file
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"Black\">\r\n    <option name=\"sdkName\" value=\"Python 3.11\" />\r\n  </component>\r\n  <component name=\"ProjectRootManager\" version=\"2\" project-jdk-name=\"Python 3.11 (project_npg_2025)\" project-jdk-type=\"Python SDK\" />\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision a13813cacb511237d7be9850ea0b4ca462837bf2)
++++ b/.idea/misc.xml	(date 1748629463105)
+@@ -3,5 +3,5 @@
+   <component name="Black">
+     <option name="sdkName" value="Python 3.11" />
+   </component>
+-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.11 (project_npg_2025)" project-jdk-type="Python SDK" />
++  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (Menu_startowe)" project-jdk-type="Python SDK" />
+ </project>
+\ No newline at end of file
+Index: room_1.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import pygame\r\nimport sys\r\nfrom game_elements.inventory import Inventory\r\nfrom game_elements.item import Item\r\nimport subprocess\r\n\r\nfrom game_elements.mystery import Mystery\r\n\r\npygame.init()\r\npygame.font.init()\r\n# Ustawienia okna\r\nWIDTH, HEIGHT = 600, 750\r\nSCREEN = pygame.display.set_mode((WIDTH, HEIGHT))\r\npygame.display.set_caption(\"Tajemnicza Gra\")\r\n\r\n# Kolory\r\nDARK_GRAY = (20, 20, 20)\r\nHIGHLIGHT = (100, 100, 255)\r\n\r\n# Ładowanie grafik\r\nbackground = pygame.image.load(\"assets/background.png\")\r\nbackground = pygame.transform.scale(background, (WIDTH, HEIGHT))\r\n\r\n#testowa ikona ekwipunku\r\nequipment_image = pygame.image.load(\"assets/equipment.jpg\").convert_alpha()\r\nequipment_icon_image = pygame.transform.scale(equipment_image, (100, 100))\r\nequipment = equipment_icon_image.get_rect(topleft=(10, 10))\r\n\r\n#Przycisk do gry w tictactoe\r\ntictactoe_hitbox = pygame.Rect(110, 590, 150, 150)\r\n\r\n\r\n#Testowa ikona klucza nr 1\r\nkey_1_image = pygame.image.load(\"assets/key.jpg\").convert_alpha()\r\nkey_1_image.set_alpha(250)\r\nkey_1_icon_image = pygame.transform.scale(key_1_image, (100, 100))\r\nkey_1 = key_1_icon_image.get_rect(midbottom=(WIDTH // 3.2, HEIGHT - 7))\r\n\r\n# Skala ikon\r\nicon_size = (100, 100)\r\n\r\n#Przycisk do gry w kolorki\r\ncolors_hitbox = pygame.Rect(420, 520, 140, 90)# x, y, szerokość, wysokość\r\n\r\n\r\n\r\ndef handle_click():\r\n    mouse_pos = pygame.mouse.get_pos()\r\n\r\ndef open_tictactoe():\r\n    tictactoe_result = subprocess.run(['python', 'minigames/tictactoe/game.py'])\r\n    return tictactoe_result\r\n\r\ndef open_colors_game():\r\n    colors_result = subprocess.run(['python', 'minigames/colors/game.py'])\r\n    return colors_result\r\n\r\ndef main():\r\n    tictactoe_mystery = Mystery('tictactoe')\r\n    colors_game_mystery = Mystery('colors_game')\r\n    key_1_item = Item(\"Klucz\", \"assets/key.jpg\")\r\n    clock = pygame.time.Clock()\r\n    inv = Inventory()\r\n    while True:\r\n\r\n        for event in pygame.event.get():\r\n            if event.type == pygame.QUIT:\r\n                pygame.quit()\r\n                sys.exit()\r\n            if event.type == pygame.MOUSEBUTTONDOWN:\r\n                handle_click()\r\n\r\n            if event.type == pygame.MOUSEBUTTONDOWN:\r\n                # otwieranie ekwipunku\r\n                if equipment.collidepoint(event.pos):\r\n                    inv.toggle()\r\n                # otwieranie minigry tictactoe\r\n                elif tictactoe_hitbox.collidepoint(event.pos) and tictactoe_mystery.get_status() == False:\r\n                    tictactoe_result = open_tictactoe()\r\n                    if tictactoe_result.returncode == 1:\r\n                        tictactoe_mystery.set_as_completed()\r\n                    tictactoe_mystery.get_status()\r\n                #zbieranie klucza - trzeba bedzie zamienić na zbieranie karty\r\n                elif key_1.collidepoint(event.pos) and tictactoe_mystery.get_status() == True and inv.if_in_inventory(key_1_item) == False:\r\n                    inv.add_item(key_1_item)\r\n\r\n                elif colors_hitbox.collidepoint(event.pos) and colors_game_mystery.get_status() == False:\r\n                    colors_result = open_colors_game()\r\n                    if colors_result == 1:\r\n                        colors_game_mystery.set_as_completed()\r\n\r\n\r\n        SCREEN.blit(background, (0, 0))  # Rysuj tło\r\n\r\n        #pygame.draw.rect(SCREEN, (255, 0, 0), colors_hitbox) #pokazuje hitbox gry colors\r\n        SCREEN.blit(equipment_icon_image, equipment)\r\n\r\n        #pygame.draw.rect(SCREEN, (0, 255, 0), tictactoe_hitbox) #pokazuje hitbox gry tictactoe\r\n\r\n        if tictactoe_mystery.get_status() == True and inv.if_in_inventory(key_1_item) == False:\r\n            SCREEN.blit(key_1_icon_image, key_1)\r\n\r\n        if inv.open:\r\n            inv.draw(SCREEN)\r\n\r\n        pygame.display.flip()\r\n        clock.tick(60)\r\n\r\nif __name__ == \"__main__\":\r\n    main()
+===================================================================
+diff --git a/room_1.py b/room_1.py
+--- a/room_1.py	(revision a13813cacb511237d7be9850ea0b4ca462837bf2)
++++ b/room_1.py	(date 1748629463094)
+@@ -9,7 +9,7 @@
+ pygame.init()
+ pygame.font.init()
+ # Ustawienia okna
+-WIDTH, HEIGHT = 600, 750
++WIDTH, HEIGHT = 512, 768
+ SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
+ pygame.display.set_caption("Tajemnicza Gra")
+ 
+@@ -19,10 +19,10 @@
+ 
+ # Ładowanie grafik
+ background = pygame.image.load("assets/background.png")
+-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
++background = pygame.transform.smoothscale(background, (WIDTH, HEIGHT))
+ 
+ #testowa ikona ekwipunku
+-equipment_image = pygame.image.load("assets/equipment.jpg").convert_alpha()
++equipment_image = pygame.image.load("assets/equipment.png").convert_alpha()
+ equipment_icon_image = pygame.transform.scale(equipment_image, (100, 100))
+ equipment = equipment_icon_image.get_rect(topleft=(10, 10))
+ 
+Index: .idea/project_npg_2025.iml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<module type=\"PYTHON_MODULE\" version=\"4\">\r\n  <component name=\"NewModuleRootManager\">\r\n    <content url=\"file://$MODULE_DIR$\">\r\n      <excludeFolder url=\"file://$MODULE_DIR$/.venv\" />\r\n    </content>\r\n    <orderEntry type=\"jdk\" jdkName=\"Python 3.11 (project_npg_2025)\" jdkType=\"Python SDK\" />\r\n    <orderEntry type=\"sourceFolder\" forTests=\"false\" />\r\n  </component>\r\n</module>
+===================================================================
+diff --git a/.idea/project_npg_2025.iml b/.idea/project_npg_2025.iml
+--- a/.idea/project_npg_2025.iml	(revision a13813cacb511237d7be9850ea0b4ca462837bf2)
++++ b/.idea/project_npg_2025.iml	(date 1748629463100)
+@@ -4,7 +4,7 @@
+     <content url="file://$MODULE_DIR$">
+       <excludeFolder url="file://$MODULE_DIR$/.venv" />
+     </content>
+-    <orderEntry type="jdk" jdkName="Python 3.11 (project_npg_2025)" jdkType="Python SDK" />
++    <orderEntry type="jdk" jdkName="Python 3.13 (Menu_startowe)" jdkType="Python SDK" />
+     <orderEntry type="sourceFolder" forTests="false" />
+   </component>
+ </module>
+\ No newline at end of file

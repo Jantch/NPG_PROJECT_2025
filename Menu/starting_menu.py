@@ -24,14 +24,14 @@ if_button_display = True
 if_other_button_display = True
 
 # Ustawienie przycisku play
-play_button = play_button_img_1.get_rect(topleft=(110, 190))
+play_button = play_button_img_1.get_rect(topleft=(115, 510))
 
 # Ustawienie przycisku exit
-exit_button = exit_button_img_1.get_rect(topleft=(110, 300))
+exit_button = exit_button_img_1.get_rect(topleft=(25, 25))
 
 
 # Ustawienie przycisku od dzwięku
-sound_button = sound_button_img_1.get_rect(topleft=(25, 700))
+sound_button = sound_button_img_1.get_rect(topleft=(440, 25))
 current_sound_button_im = sound_button_img_1
 
 # Główna pętla gry

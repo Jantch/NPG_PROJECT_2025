@@ -27,14 +27,14 @@ play_button_img_2 = pygame.image.load(image_path_play_button_2)
 play_button_img_2 = pygame.transform.scale(play_button_img_2, (300, 100))
 
 # Pierwsze zdjecie do przyciku exit
-image_path_exit_button_1 = os.path.join("..", "assets", "images", "Exit_Button_1.png")
+image_path_exit_button_1 = os.path.join("..", "assets", "images", "back_button_1.png")
 exit_button_img_1 = pygame.image.load(image_path_exit_button_1)
-exit_button_img_1 = pygame.transform.scale(exit_button_img_1, (300, 100))
+exit_button_img_1 = pygame.transform.scale(exit_button_img_1, (50, 50))
 
 # Drugie zdjecie do przyciku exit
-image_path_exit_button_2 = os.path.join("..", "assets", "images", "Exit_Button_2.png")
+image_path_exit_button_2 = os.path.join("..", "assets", "images", "back_button_2.png")
 exit_button_img_2 = pygame.image.load(image_path_exit_button_2)
-exit_button_img_2 = pygame.transform.scale(exit_button_img_2, (300, 100))
+exit_button_img_2 = pygame.transform.scale(exit_button_img_2, (50, 50))
 
 
 # Drugie zdje

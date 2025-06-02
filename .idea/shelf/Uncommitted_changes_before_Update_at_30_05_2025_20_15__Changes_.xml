@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Update_at_30_05_2025_20_15_[Changes]" date="1748628917551" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_05_2025_20_15_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Update at 30.05.2025 20:15 [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="assets/backpack.png" />
+    <option name="AFTER_PATH" value="assets/equipment.png" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_05_2025_20_15_[Changes]/equipment.png" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="assets/equipment.jpg" />
+    <option name="AFTER_PATH" value="assets/equipment_temporary.jpg" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_30_05_2025_20_15_[Changes]/equipment_temporary.jpg" />
+  </binary>
+</changelist>
