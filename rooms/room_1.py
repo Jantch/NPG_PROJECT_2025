@@ -37,7 +37,7 @@ backpack_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "backpack_ope
 key_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "key_get.wav"))
 
 # Przycisk do gry w tictactoe
-tictactoe_hitbox = pygame.Rect(110, 590, 150, 150)
+tictactoe_hitbox = pygame.Rect(90, 600, 150, 150)
 
 # Ikona klucza
 key_1_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "key.jpg")).convert_alpha()
@@ -49,7 +49,7 @@ key_1 = key_1_icon_image.get_rect(midbottom=(WIDTH // 3.2, HEIGHT - 7))
 icon_size = (100, 100)
 
 # Przycisk do gry w kolorki
-colors_hitbox = pygame.Rect(420, 520, 140, 90)
+colors_hitbox = pygame.Rect(355, 520, 140, 90)
 
 def handle_click():
     mouse_pos = pygame.mouse.get_pos()
@@ -91,6 +91,7 @@ def main():
 
         SCREEN.blit(background, (0, 0))
         SCREEN.blit(equipment_icon_image, equipment)
+        
 
         if tictactoe_mystery.get_status() and not inv.if_in_inventory(key_1_item):
             SCREEN.blit(key_1_icon_image, key_1)
