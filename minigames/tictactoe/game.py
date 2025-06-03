@@ -25,6 +25,7 @@ SYMBOL_OFFSETS = {'X': (0, 0), 'O': (0, 0)}
 
 # ścieżki do plików
 BASE_PATH        = os.path.dirname(__file__)
+SOUND_PATH = os.path.join(BASE_PATH, '..', '..', 'sounds', 'effects', 'tictactoe_click.wav')
 BACKGROUND_PATH  = os.path.join(BASE_PATH, "static", "image.png")
 O_IMG_PATH       = os.path.join(BASE_PATH, "static", "circle.png")
 X_IMG_PATH       = os.path.join(BASE_PATH, "static", "cross.png")
@@ -33,6 +34,8 @@ X_IMG_PATH       = os.path.join(BASE_PATH, "static", "cross.png")
 # tło
 background = pygame.image.load(BACKGROUND_PATH).convert()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+click = pygame.mixer.Sound(SOUND_PATH)
+click.set_volume(0.2)
 
 # symbole
 symbol_size = int(CELL * SYMBOL_SCALE)
@@ -89,6 +92,7 @@ waiting = False
 # --- GŁÓWNA PĘTLA ---
 running = True
 while running:
+    result = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -104,6 +108,7 @@ while running:
                 row = (my - BOARD_Y) // CELL
                 if board[row][col] is None:
                     board[row][col] = 'X'
+                    click.play()    #dźwięk
                     check_winner()
                     if not game_over:
                         # zaplanuj ruch komputera
@@ -127,6 +132,7 @@ while running:
         if pygame.time.get_ticks() - computer_move_time >= COMPUTER_DELAY:
             r, c = computer_move_pos
             board[r][c] = 'O'
+            click.play()    #dźwięk
             check_winner()
             pending_computer_move = False
             computer_move_pos     = None
@@ -145,6 +151,7 @@ while running:
         # zmień treść na dowolną:
         if winner == 'X':
             msg = "Trafiłeś! Krzyżyk wygrywa!"
+            result = 1
         elif winner == 'O':
             msg = "Komputer wygrywa..."
         else:
@@ -162,7 +169,8 @@ while running:
 
 
 
+
     pygame.display.flip()
 
 pygame.quit()
-sys.exit()
+sys.exit(result)
