@@ -21,6 +21,8 @@ HIGHLIGHT = (100, 100, 255)
 
 # Ścieżka bazowa względem pliku room_1.py (czyli jeden poziom wyżej)
 BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+# Ścieżka bazowa względem pliku room_1.py dla dźwięków
+BASE_PATH_SOUNDS = os.path.abspath(os.path.join(BASE_PATH, "sounds", "effects"))
 
 # Ładowanie grafik
 background = pygame.image.load(os.path.join(BASE_PATH, "assets", "background.png"))
@@ -29,6 +31,10 @@ background = pygame.transform.smoothscale(background, (WIDTH, HEIGHT))
 equipment_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "backpack.png")).convert_alpha()
 equipment_icon_image = pygame.transform.smoothscale(equipment_image, (100, 100))
 equipment = equipment_icon_image.get_rect(topleft=(10, 10))
+
+# Ładowanie dźwięków
+backpack_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "backpack_open.wav"))
+key_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "key_get.wav"))
 
 # Przycisk do gry w tictactoe
 tictactoe_hitbox = pygame.Rect(110, 590, 150, 150)
@@ -72,11 +78,13 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if equipment.collidepoint(event.pos):
                     inv.toggle()
+                    backpack_sound.play()
                 elif tictactoe_hitbox.collidepoint(event.pos) and not tictactoe_mystery.get_status():
                     if open_tictactoe().returncode == 1:
                         tictactoe_mystery.set_as_completed()
                 elif key_1.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(key_1_item):
                     inv.add_item(key_1_item)
+                    key_sound.play()
                 elif colors_hitbox.collidepoint(event.pos) and not colors_game_mystery.get_status():
                     if open_colors_game().returncode == 1:
                         colors_game_mystery.set_as_completed()
