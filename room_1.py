@@ -9,7 +9,7 @@ from game_elements.mystery import Mystery
 pygame.init()
 pygame.font.init()
 # Ustawienia okna
-WIDTH, HEIGHT = 600, 750
+WIDTH, HEIGHT = 512, 768
 SCREEN = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Tajemnicza Gra")
 
@@ -19,7 +19,7 @@ HIGHLIGHT = (100, 100, 255)
 
 # Ładowanie grafik
 background = pygame.image.load("assets/background.png")
-background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+background = pygame.transform.smoothscale(background, (WIDTH, HEIGHT))
 
 #testowa ikona ekwipunku
 equipment_image = pygame.image.load("assets/equipment.jpg").convert_alpha()
