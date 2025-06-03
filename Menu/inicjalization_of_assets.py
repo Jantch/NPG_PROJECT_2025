@@ -7,6 +7,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Ścieżka do folderu z obrazami
 IMG_DIR = os.path.join(BASE_DIR, "..", "assets", "images_in_menu")
 
+# Ścieżka do folderu z dźwiękami
+SOUND_DIR = os.path.join(BASE_DIR, "..", "sounds", "effects")
+
 # Tło
 image_path_background = os.path.join(IMG_DIR, "background.png")
 background = pygame.image.load(image_path_background)
@@ -43,3 +46,6 @@ sound_button_img_1 = pygame.transform.scale(sound_button_img_1, (50, 50))
 image_path_sound_2 = os.path.join(IMG_DIR, "Audio_button_2.png")
 sound_button_img_2 = pygame.image.load(image_path_sound_2)
 sound_button_img_2 = pygame.transform.scale(sound_button_img_2, (50, 50))
+
+
+

@@ -3,6 +3,7 @@ from inicjalization_of_assets import *
 from animation_of_transition import transition_animation
 
 # Inicjalizacja Pygame
+
 pygame.init()
 
 # Ustawienia okna
@@ -33,6 +34,12 @@ exit_button = exit_button_img_1.get_rect(topleft=(25, 25))
 # Ustawienie przycisku od dzwięku
 sound_button = sound_button_img_1.get_rect(topleft=(440, 25))
 current_sound_button_im = sound_button_img_1
+
+# Dźwięk otwarcia drzwi
+door_sound_path = os.path.join(SOUND_DIR, "open_door_2.mp3")
+open_door_sound = pygame.mixer.Sound(door_sound_path)
+if_sound_open_door_active = False
+
 
 # Główna pętla gry
 running = True
@@ -68,10 +75,14 @@ while running:
 
         # Rysowanie przycisku play
         if play_button.collidepoint(mouse_pos):
+            if not if_sound_open_door_active:
+                open_door_sound.play()
+                if_sound_open_door_active = True
             screen.blit(background_2, (0, 0))
             if_other_button_display = False
             screen.blit(play_button_img_2, play_button.topleft)
         else:
+            if_sound_open_door_active = False
             if_other_button_display = True
             screen.blit(play_button_img_1, play_button.topleft)
 
