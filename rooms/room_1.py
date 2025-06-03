@@ -23,7 +23,7 @@ HIGHLIGHT = (100, 100, 255)
 BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 
 # Ładowanie grafik
-background = pygame.image.load(os.path.join(BASE_PATH, "assets", "background.png"))
+background = pygame.image.load(os.path.join(BASE_PATH, "assets", "background_v2.jpg"))
 background = pygame.transform.smoothscale(background, (WIDTH, HEIGHT))
 
 equipment_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "backpack.png")).convert_alpha()
@@ -45,6 +45,18 @@ icon_size = (100, 100)
 # Przycisk do gry w kolorki
 colors_hitbox = pygame.Rect(355, 520, 140, 90)
 
+# Otwarty sejf
+open_safe_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "otwarty_sejf_sam.jpg")).convert_alpha()
+open_safe_image.set_alpha(255)
+open_safe_icon_image = pygame.transform.scale(open_safe_image, (318, 210))
+open_safe = open_safe_icon_image.get_rect(midbottom=(WIDTH // 2.57, HEIGHT --1.2))
+
+# Otwarta szafka
+open_locker_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "otwarta_szafka_sama.jpg")).convert_alpha()
+open_locker_image.set_alpha(255)
+open_locker_icon_image = pygame.transform.scale(open_locker_image, (136, 174))
+open_locker = open_locker_icon_image.get_rect(bottomright=(WIDTH , HEIGHT -221.5 ))
+
 def handle_click():
     mouse_pos = pygame.mouse.get_pos()
 
@@ -60,7 +72,8 @@ def main():
     key_1_item = Item("Klucz", os.path.join(BASE_PATH, "assets", "key.jpg"))
     clock = pygame.time.Clock()
     inv = Inventory()
-
+    #tictactoe_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
+    #colors_game_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -85,9 +98,12 @@ def main():
         SCREEN.blit(equipment_icon_image, equipment)
         
 
-        if tictactoe_mystery.get_status() and not inv.if_in_inventory(key_1_item):
-            SCREEN.blit(key_1_icon_image, key_1)
+        if tictactoe_mystery.get_status():
+            SCREEN.blit(open_safe_icon_image, open_safe)
 
+
+        if colors_game_mystery.get_status():
+            SCREEN.blit(open_locker_icon_image, open_locker)
         if inv.open:
             inv.draw(SCREEN)
 
