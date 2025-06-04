@@ -14,7 +14,7 @@ BOARD_W = WIDTH  - 2*BOARD_X
 BOARD_H = HEIGHT - 2*BOARD_Y
 CELL    = BOARD_W // 3
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
 pygame.display.set_caption("Kółko i Krzyżyk")
 
 FONT = pygame.font.SysFont(None, 36)

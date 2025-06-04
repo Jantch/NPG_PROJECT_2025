@@ -91,7 +91,7 @@ def main():
 
         SCREEN.blit(background, (0, 0))
         SCREEN.blit(equipment_icon_image, equipment)
-        
+
 
         if tictactoe_mystery.get_status() and not inv.if_in_inventory(key_1_item):
             SCREEN.blit(key_1_icon_image, key_1)

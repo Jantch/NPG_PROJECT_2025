@@ -3,7 +3,7 @@ import pygame, sys, random, os
 # --- Inicjalizacja Pygame ---
 pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 300, 300
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
 pygame.display.set_caption("Puzzle 3x3 z ramką")
 clock = pygame.time.Clock()
 
