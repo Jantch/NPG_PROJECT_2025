@@ -6,6 +6,12 @@ from game_elements.inventory import Inventory
 from game_elements.item import Item
 import subprocess
 from game_elements.mystery import Mystery
+import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from openaimodule.aimodule import Hint
 
 pygame.init()
 pygame.font.init()

@@ -16,6 +16,3 @@ class Hint:
         prompt.create_prompt(store=False, message=random_choice)
         return text_to_speech(text=prompt.get_response())
 
-if __name__ == "__main__":
-    hint = Hint()
-    hint.get_hint(["kółko i krzyżyk"])
