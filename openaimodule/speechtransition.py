@@ -1,16 +1,20 @@
-import random
+
 from gtts import gTTS
 
-def text_to_speech(text: str, filename: str = f"hints_voc/{random.randint(1, 10000)}.mp3", lang: str = "pl"):
-    """
-    Konwertuje tekst na mowę i zapisuje jako plik MP3.
-    - text: treść do przetworzenia
-    - filename: nazwa wyjściowego pliku mp3
-    - lang: kod języka (np. "pl" dla polskiego)
-    """
-    tts = gTTS(text=text, lang=lang)
+import os
+def text_to_speech(text: str) -> str:
+    # Ścieżka do folderu tego pliku (czyli openaimodule)
+    base_path = os.path.dirname(__file__)
+
+    # Pełna ścieżka do folderu hints_voc
+    hints_folder = os.path.join(base_path, "hints_voc")
+    os.makedirs(hints_folder, exist_ok=True)
+
+    # Pełna ścieżka do pliku
+    filename = os.path.join(hints_folder, "sound_of_assistant.wav")
+
+    # Tworzenie dźwięku
+    tts = gTTS(text, lang="pl")
     tts.save(filename)
-    print(f"Plik dźwiękowy zapisany jako: {filename}")
+
     return filename
-
-

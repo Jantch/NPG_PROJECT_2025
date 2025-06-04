@@ -1,5 +1,5 @@
-from prompts import Prompt
-from speechtransition import text_to_speech
+from .prompts import Prompt
+from .speechtransition import text_to_speech
 import random
 
 class Hint:

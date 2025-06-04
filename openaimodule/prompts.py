@@ -6,8 +6,7 @@ class Prompt:
         self.model = model
         self.response = None
         self.client = OpenAI(
-            api_key="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"
-        )
+            api_key="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")
 
     def create_prompt(self, store: bool, message: str):
         self.response = self.client.responses.create(

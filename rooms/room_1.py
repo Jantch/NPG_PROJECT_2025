@@ -9,8 +9,8 @@ from game_elements.mystery import Mystery
 import os
 import sys
 
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+sys.path.insert(0, BASE_DIR)
 from openaimodule.aimodule import Hint
 
 pygame.init()
@@ -29,7 +29,7 @@ HIGHLIGHT = (100, 100, 255)
 BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 # Ścieżka bazowa względem pliku room_1.py dla dźwięków
 BASE_PATH_SOUNDS = os.path.abspath(os.path.join(BASE_PATH, "sounds", "effects"))
-
+ASSISTANT_PATH_SOUNDS = os.path.abspath(os.path.join(BASE_PATH, "openaimodule", "hints_voc"))
 # Ładowanie grafik
 background = pygame.image.load(os.path.join(BASE_PATH, "assets", "background_v2.jpg"))
 background = pygame.transform.smoothscale(background, (WIDTH, HEIGHT))
@@ -113,7 +113,10 @@ def main():
                         colors_game_mystery.set_as_completed()
 
                 elif hint_hitbox.collidepoint(event.pos):
-                    pass
+                    hint = Hint()
+                    hint.get_hint(completed)
+                    assistant_sound = pygame.mixer.Sound(os.path.join(ASSISTANT_PATH_SOUNDS, "sound_of_assistant.wav"))
+                    assistant_sound.play()
 
         SCREEN.blit(background, (0, 0))
         SCREEN.blit(equipment_icon_image, equipment)
