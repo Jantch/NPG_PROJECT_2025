@@ -41,6 +41,8 @@ equipment = equipment_icon_image.get_rect(topleft=(10, 10))
 # Ładowanie dźwięków
 backpack_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "backpack_open.wav"))
 key_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "key_get.wav"))
+soundtrack = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "..", "soundtrack", "room_1.wav"))
+interaction_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "interaction.wav"))
 
 # Przycisk do gry w tictactoe
 tictactoe_hitbox = pygame.Rect(90, 600, 150, 150)
@@ -82,6 +84,9 @@ def open_colors_game():
     return subprocess.run(['python', os.path.join(BASE_PATH, 'minigames', 'colors', 'game.py')])
 
 def main():
+    soundtrack.set_volume(0.2)  #ambient muzyczny
+    soundtrack.play(loops=-1)
+
     tictactoe_mystery = Mystery('tictactoe')
     colors_game_mystery = Mystery('colors_game')
     key_1_item = Item("Klucz", os.path.join(BASE_PATH, "assets", "key.jpg"))
@@ -103,12 +108,14 @@ def main():
                     inv.toggle()
                     backpack_sound.play()
                 elif tictactoe_hitbox.collidepoint(event.pos) and not tictactoe_mystery.get_status():
+                    interaction_sound.play()    #dźwiek
                     if open_tictactoe().returncode == 1:
                         tictactoe_mystery.set_as_completed()
                 elif key_1.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(key_1_item):
                     inv.add_item(key_1_item)
                     key_sound.play()
                 elif colors_hitbox.collidepoint(event.pos) and not colors_game_mystery.get_status():
+                    interaction_sound.play()  # dźwiek
                     if open_colors_game().returncode == 1:
                         colors_game_mystery.set_as_completed()
 
