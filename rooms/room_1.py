@@ -51,6 +51,9 @@ icon_size = (100, 100)
 # Przycisk do gry w kolorki
 colors_hitbox = pygame.Rect(355, 520, 140, 90)
 
+# Testowy przycisk do podpowiedzi
+hint_hitbox = pygame.Rect(380, 10, 100, 100)
+
 # Otwarty sejf
 open_safe_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "otwarty_sejf_sam.jpg")).convert_alpha()
 open_safe_image.set_alpha(255)
@@ -78,6 +81,7 @@ def main():
     key_1_item = Item("Klucz", os.path.join(BASE_PATH, "assets", "key.jpg"))
     clock = pygame.time.Clock()
     inv = Inventory()
+    completed = []
     #tictactoe_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
     #colors_game_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
     while True:
@@ -102,16 +106,22 @@ def main():
                     if open_colors_game().returncode == 1:
                         colors_game_mystery.set_as_completed()
 
+                elif hint_hitbox.collidepoint(event.pos):
+                    pass
+
         SCREEN.blit(background, (0, 0))
         SCREEN.blit(equipment_icon_image, equipment)
+        pygame.draw.rect(SCREEN, (255, 0, 0), hint_hitbox)
         
 
         if tictactoe_mystery.get_status():
             SCREEN.blit(open_safe_icon_image, open_safe)
-
+            completed.append("kółko i krzyzyk")
 
         if colors_game_mystery.get_status():
             SCREEN.blit(open_locker_icon_image, open_locker)
+            completed.append("układanie klocków")
+
         if inv.open:
             inv.draw(SCREEN)
 
