@@ -94,7 +94,7 @@ def main():
     inv = Inventory()
     completed = []
     #tictactoe_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
-    #colors_game_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
+    colors_game_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
