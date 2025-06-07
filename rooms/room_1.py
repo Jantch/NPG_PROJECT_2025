@@ -1,6 +1,9 @@
 import pygame
 import sys
 import os
+
+from game_elements.card import Card
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from game_elements.inventory import Inventory
 from game_elements.item import Item
@@ -62,6 +65,9 @@ colors_hitbox = pygame.Rect(355, 520, 140, 90)
 # Testowy przycisk do podpowiedzi
 hint_hitbox = pygame.Rect(380, 10, 100, 100)
 
+# Przycisk do kodu pod kartami
+code_cards_hitbox = pygame.Rect(69, 282, 77, 34)
+
 # Otwarty sejf
 open_safe_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "otwarty_sejf_sam.jpg")).convert_alpha()
 open_safe_image.set_alpha(255)
@@ -83,15 +89,30 @@ def open_tictactoe():
 def open_colors_game():
     return subprocess.run(['python', os.path.join(BASE_PATH, 'minigames', 'colors', 'game.py')])
 
+def open_code_cards_game():
+    return subprocess.run(['python', os.path.join(BASE_PATH, 'minigames', 'code_cards', 'game.py')])
+
 def main():
     soundtrack.set_volume(0.2)  #ambient muzyczny
     soundtrack.play(loops=-1)
-
+    #zagadki
     tictactoe_mystery = Mystery('tictactoe')
     colors_game_mystery = Mystery('colors_game')
+    code_cards_game_mystery = Mystery('code_cards_game')
+
+    #karty
+    dwojka_pik = Item("dwójka pik", os.path.join(BASE_PATH, "assets", "dwojka_pik.png"))
+    as_kier = Item("as kier", os.path.join(BASE_PATH, "assets", "as_kier.png"))
+    trojka_karo = Item("trójka karo", os.path.join(BASE_PATH, "assets", "trojka_karo.png"))
+    siodemka_trefl = Item("siódemka trefl", os.path.join(BASE_PATH, "assets", "siodemka_trefl.png"))
+
     key_1_item = Item("Klucz", os.path.join(BASE_PATH, "assets", "key.jpg"))
     clock = pygame.time.Clock()
     inv = Inventory()
+    inv.add_item(siodemka_trefl)
+    #inv.add_item(siodemka_trefl)
+    #inv.add_item(siodemka_trefl)
+    #inv.add_item(siodemka_trefl)
     completed = []
     #tictactoe_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
     colors_game_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
@@ -125,9 +146,16 @@ def main():
                     assistant_sound = pygame.mixer.Sound(os.path.join(ASSISTANT_PATH_SOUNDS, "sound_of_assistant.wav"))
                     assistant_sound.play()
 
+                elif code_cards_hitbox.collidepoint(event.pos) and not inv.if_in_inventory(siodemka_trefl):
+                    if open_code_cards_game().returncode == 1:
+                        print("Warunek spełniony, dodaję siódemkę trefl")
+                        inv.add_item(siodemka_trefl)
+                        code_cards_game_mystery.set_as_completed()
+
         SCREEN.blit(background, (0, 0))
         SCREEN.blit(equipment_icon_image, equipment)
         pygame.draw.rect(SCREEN, (255, 0, 0), hint_hitbox)
+        #pygame.draw.rect(SCREEN, (255, 255, 0), code_cards_hitbox)
         
 
         if tictactoe_mystery.get_status():
@@ -137,6 +165,10 @@ def main():
         if colors_game_mystery.get_status():
             SCREEN.blit(open_locker_icon_image, open_locker)
             completed.append("układanie klocków")
+
+        if code_cards_game_mystery.get_status():
+            pass
+            #completed.append()
 
         if inv.open:
             inv.draw(SCREEN)

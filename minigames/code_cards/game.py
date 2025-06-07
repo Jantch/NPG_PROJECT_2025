@@ -4,22 +4,22 @@ import sys
 
 pygame.init()
 def load_background(filename):
-    path = os.path.join("static", filename)
+    base_path = os.path.dirname(__file__)  # folder, w którym jest game.py (czyli minigra)
+    path = os.path.join(base_path, "static", filename)
     return pygame.image.load(path).convert()
 
 def load_and_scale_digit_images(folder, digits, max_width):
     digit_images = []
-    for digit in range(0, 10):
-        path = os.path.join(folder, f"{digit}.jpg")
+    base_path = os.path.dirname(__file__)
+    for digit in digits:
+        path = os.path.join(base_path, folder, f"{digit}.jpg")
         img = pygame.image.load(path).convert_alpha()
-
-        # Oblicz skalę na podstawie max_width i aktualnej szerokości
         scale_factor = max_width / img.get_width()
         new_width = int(img.get_width() * scale_factor)
         new_height = int(img.get_height() * scale_factor)
-
         scaled_img = pygame.transform.smoothscale(img, (new_width, new_height))
         digit_images.append(scaled_img)
+    return digit_images
 
     return digit_images
 
@@ -71,7 +71,7 @@ while running:
         if event.type == pygame.QUIT:
             running = False
             pygame.quit()
-            sys.exit()
+            sys.exit(result)
 
         elif event.type == pygame.MOUSEBUTTONDOWN and result == 0:
             pos = event.pos
@@ -82,10 +82,10 @@ while running:
                         code[i] = 0
 
         if check_code(code) and result == 0:
-            print("Brawo! Kod poprawny!")
+            #print("Brawo! Kod poprawny!")
             result = 1
-            print(result)
-            #sys.exit(result)
-            # Tu możesz np. zakończyć grę albo przejść do kolejnego etapu
+            #print(result)
+
+
 pygame.quit()
 sys.exit(result)
