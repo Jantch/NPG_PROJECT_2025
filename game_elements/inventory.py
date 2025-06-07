@@ -23,7 +23,7 @@ class Inventory:
     def draw(self, screen):
         s = self.amount
         if self.open:
-            pygame.draw.rect(screen, (50, 50, 50), (100, 100, 250, s * 100))
+            pygame.draw.rect(screen, (139, 71, 38), (100, 100, 250, s * 80))
 
             row_height = 70  # dostosuj do wysokości ikon
             icon_size = 128  # bo Twoje ikony są 128x128

@@ -62,10 +62,23 @@ card_7_image.set_alpha(255)
 card_7_icon_image = pygame.transform.scale(card_7_image, (100, 100))
 card_7 = card_7_icon_image.get_rect(midbottom=(WIDTH // 3.2, HEIGHT -10))
 
+# Ikona karty 2
 card_2_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "dwojka_pik.png")).convert_alpha()
 card_2_image.set_alpha(255)
 card_2_icon_image = pygame.transform.scale(card_2_image, (100, 100))
 card_2 = card_2_icon_image.get_rect(midbottom=(WIDTH // 4, HEIGHT -10))
+
+# Ikona karty 3
+card_3_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "trojka_karo.png")).convert_alpha()
+card_3_image.set_alpha(255)
+card_3_icon_image = pygame.transform.scale(card_3_image, (100, 100))
+card_3 = card_3_icon_image.get_rect(bottomright=(WIDTH -15 , HEIGHT -240 ))
+
+# Ikona klarty as
+card_as_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "as_kier.png")).convert_alpha()
+card_as_image.set_alpha(255)
+card_as_icon_image = pygame.transform.scale(card_as_image, (100, 100))
+card_as = card_as_icon_image.get_rect(bottomright=(WIDTH -15 , HEIGHT -290 ))
 
 # Skala ikon
 icon_size = (100, 100)
@@ -145,8 +158,13 @@ def main():
                     #key_sound.play()
                 elif card_7.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(siodemka_trefl):
                     inv.add_item(siodemka_trefl)
-                elif card_7.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(dwojka_pik):
+                elif card_2.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(dwojka_pik):
                     inv.add_item(dwojka_pik)
+                elif card_3.collidepoint(event.pos) and colors_game_mystery.get_status() and not inv.if_in_inventory(trojka_karo):
+                    inv.add_item(trojka_karo)
+                elif card_as.collidepoint(event.pos) and colors_game_mystery.get_status() and not inv.if_in_inventory(as_kier):
+                    inv.add_item(as_kier)
+
                 elif colors_hitbox.collidepoint(event.pos) and not colors_game_mystery.get_status():
                     interaction_sound.play()  # dźwiek
                     if open_colors_game().returncode == 1:
@@ -158,9 +176,8 @@ def main():
                     assistant_sound = pygame.mixer.Sound(os.path.join(ASSISTANT_PATH_SOUNDS, "sound_of_assistant.wav"))
                     assistant_sound.play()
 
-                elif code_cards_hitbox.collidepoint(event.pos) and not inv.if_in_inventory(siodemka_trefl):
+                elif code_cards_hitbox.collidepoint(event.pos) :
                     if open_code_cards_game().returncode == 1:
-                        print("Warunek spełniony, dodaję siódemkę trefl")
                         inv.add_item(siodemka_trefl)
                         code_cards_game_mystery.set_as_completed()
 
@@ -182,6 +199,10 @@ def main():
         if colors_game_mystery.get_status():
             SCREEN.blit(open_locker_icon_image, open_locker)
             completed.append("układanie klocków")
+            if not inv.if_in_inventory(trojka_karo):
+                SCREEN.blit(card_3_icon_image, card_3)
+            if not inv.if_in_inventory(as_kier):
+                SCREEN.blit(card_as_icon_image, card_as)
 
         if code_cards_game_mystery.get_status():
             pass
