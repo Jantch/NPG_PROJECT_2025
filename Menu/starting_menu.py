@@ -36,7 +36,7 @@ sound_button = sound_button_img_1.get_rect(topleft=(440, 25))
 current_sound_button_im = sound_button_img_1
 
 # Dźwięk otwarcia drzwi
-door_sound_path = os.path.join(SOUND_DIR, "open_door_2.mp3")
+door_sound_path = os.path.join(SOUND_DIR, "open_door.wav")
 open_door_sound = pygame.mixer.Sound(door_sound_path)
 if_sound_open_door_active = False
 
