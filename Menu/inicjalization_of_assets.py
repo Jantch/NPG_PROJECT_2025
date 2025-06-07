@@ -8,7 +8,9 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 IMG_DIR = os.path.join(BASE_DIR, "..", "assets", "images_in_menu")
 
 # Ścieżka do folderu z dźwiękami
-SOUND_DIR = os.path.join(BASE_DIR, "..", "sounds", "effects")
+SOUND_DIR_elements = os.path.join(BASE_DIR, "..", "sounds", "effects")
+
+SOUND_DIR_soundtrack = os.path.join(BASE_DIR, "..", "sounds", "soundtrack")
 
 # Tło
 image_path_background = os.path.join(IMG_DIR, "background.png")
@@ -17,7 +19,7 @@ background = pygame.image.load(image_path_background)
 image_path_background_2 = os.path.join(IMG_DIR, "background_2.png")
 background_2 = pygame.image.load(image_path_background_2)
 
-image_path_background_next_1 = os.path.join(IMG_DIR, "temporary_background.jpg")
+image_path_background_next_1 = os.path.join(IMG_DIR, "background_v2.jpg")
 background_next_1 = pygame.image.load(image_path_background_next_1)
 
 # Przycisk PLAY
