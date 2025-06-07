@@ -23,14 +23,26 @@ class Inventory:
     def draw(self, screen):
         s = self.amount
         if self.open:
-            pygame.draw.rect(screen, (50, 50, 50), (100, 100, 250, s*100))
+            pygame.draw.rect(screen, (50, 50, 50), (100, 100, 250, s * 100))
 
-            row_height = 70  # zwiększamy odstęp między wierszami
-            icon_size = 64  # załóżmy, że ikony mają 32x32 px
-            text_offset_y = (row_height - 24) // 3  # centrowanie tekstu (24 to rozmiar fonta)
+            row_height = 70  # dostosuj do wysokości ikon
+            icon_size = 128  # bo Twoje ikony są 128x128
 
             for i, item in enumerate(self.items):
-                y = 110 + i * row_height
-                item.draw_icon(screen, 110, y)
+                y = 80 + i * row_height
+                icon_x = 60
+
+                # Rysowanie ikony
+                item.draw_icon(screen, icon_x, y)
+
+                # Render tekstu
                 text = self.font.render(item.name, True, (255, 255, 255))
-                screen.blit(text, (150, y + text_offset_y))
+
+                # Tworzymy prostokąt ikony (używamy pozycji i znanego rozmiaru)
+                icon_rect = pygame.Rect(icon_x, y, icon_size, icon_size)
+
+                # Wyrównanie tekstu względem ikony (pionowo na środku, obok ikony)
+                text_rect = text.get_rect()
+                text_rect.midleft = (icon_rect.right -40, icon_rect.centery)
+
+                screen.blit(text, text_rect)

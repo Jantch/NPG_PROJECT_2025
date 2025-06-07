@@ -56,6 +56,17 @@ key_1_image.set_alpha(250)
 key_1_icon_image = pygame.transform.scale(key_1_image, (100, 100))
 key_1 = key_1_icon_image.get_rect(midbottom=(WIDTH // 3.2, HEIGHT - 7))
 
+# Ikona karty 7
+card_7_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "siodemka_trefl.png")).convert_alpha()
+card_7_image.set_alpha(255)
+card_7_icon_image = pygame.transform.scale(card_7_image, (100, 100))
+card_7 = card_7_icon_image.get_rect(midbottom=(WIDTH // 3.2, HEIGHT -10))
+
+card_2_image = pygame.image.load(os.path.join(BASE_PATH, "assets", "dwojka_pik.png")).convert_alpha()
+card_2_image.set_alpha(255)
+card_2_icon_image = pygame.transform.scale(card_2_image, (100, 100))
+card_2 = card_2_icon_image.get_rect(midbottom=(WIDTH // 4, HEIGHT -10))
+
 # Skala ikon
 icon_size = (100, 100)
 
@@ -109,12 +120,9 @@ def main():
     key_1_item = Item("Klucz", os.path.join(BASE_PATH, "assets", "key.jpg"))
     clock = pygame.time.Clock()
     inv = Inventory()
-    inv.add_item(siodemka_trefl)
-    #inv.add_item(siodemka_trefl)
-    #inv.add_item(siodemka_trefl)
-    #inv.add_item(siodemka_trefl)
+
     completed = []
-    #tictactoe_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
+    tictactoe_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
     colors_game_mystery.set_as_completed() #do ustawiania tych ikon po otwarciu
     while True:
         for event in pygame.event.get():
@@ -132,9 +140,13 @@ def main():
                     interaction_sound.play()    #dźwiek
                     if open_tictactoe().returncode == 1:
                         tictactoe_mystery.set_as_completed()
-                elif key_1.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(key_1_item):
-                    inv.add_item(key_1_item)
-                    key_sound.play()
+                #elif key_1.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(key_1_item):
+                    #inv.add_item(key_1_item)
+                    #key_sound.play()
+                elif card_7.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(siodemka_trefl):
+                    inv.add_item(siodemka_trefl)
+                elif card_7.collidepoint(event.pos) and tictactoe_mystery.get_status() and not inv.if_in_inventory(dwojka_pik):
+                    inv.add_item(dwojka_pik)
                 elif colors_hitbox.collidepoint(event.pos) and not colors_game_mystery.get_status():
                     interaction_sound.play()  # dźwiek
                     if open_colors_game().returncode == 1:
@@ -161,6 +173,11 @@ def main():
         if tictactoe_mystery.get_status():
             SCREEN.blit(open_safe_icon_image, open_safe)
             completed.append("kółko i krzyzyk")
+            if not inv.if_in_inventory(siodemka_trefl):
+                SCREEN.blit(card_7_icon_image, card_7)
+            if not inv.if_in_inventory(dwojka_pik):
+                SCREEN.blit(card_2_icon_image, card_2)
+
 
         if colors_game_mystery.get_status():
             SCREEN.blit(open_locker_icon_image, open_locker)
