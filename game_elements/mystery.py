@@ -8,7 +8,7 @@ class Mystery:
         return self.status
 
     def set_as_completed(self):
-        self.status = False
+        self.status = True
 
     def set_status(self, new_status):
         self.status = new_status
