@@ -29,8 +29,8 @@ exit_button = exit_button_img_1.get_rect(topleft=(25, 25))
 sound_button = sound_button_img_1.get_rect(topleft=(440, 25))
 current_sound_button_im = sound_button_img_1
 
-# Ustawienie soundtracku do menu (room_2.wav)
-menu_sound_track_path = os.path.join(SOUND_DIR_soundtrack, "room_2.wav")
+# Ustawienie soundtracku do menu (room_1.wav)
+menu_sound_track_path = os.path.join(SOUND_DIR_soundtrack, "room_1.wav")
 menu_sound_track = pygame.mixer.Sound(menu_sound_track_path)
 menu_sound_track.play(loops=-1)  # Pętla nieskończona
 menu_sound_track.set_volume(1.0)  # Głośność 100%
