@@ -197,7 +197,8 @@ def main():
 
         if tictactoe_mystery.get_status():
             SCREEN.blit(open_safe_icon_image, open_safe)
-            completed.append("kółko i krzyzyk")
+            if "kółko i krzyzyk" not in completed:
+                completed.append("kółko i krzyzyk")
             if not inv.if_in_inventory(siodemka_trefl):
                 SCREEN.blit(card_7_icon_image, card_7)
             if not inv.if_in_inventory(dwojka_pik):
@@ -206,7 +207,8 @@ def main():
 
         if colors_game_mystery.get_status():
             SCREEN.blit(open_locker_icon_image, open_locker)
-            completed.append("układanie klocków")
+            if "układanie klocków" not in completed:
+                completed.append("układanie klocków")
             if not inv.if_in_inventory(trojka_karo):
                 SCREEN.blit(card_3_icon_image, card_3)
             if not inv.if_in_inventory(as_kier):
