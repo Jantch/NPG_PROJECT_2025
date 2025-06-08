@@ -37,6 +37,12 @@ background = load_background("cards_numbers_background.jpg")
 max_digit_width = 31
 digit_images = load_and_scale_digit_images("static", range(0, 10), max_digit_width)
 
+#Wczytanie dźwięków
+BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+BASE_PATH_SOUNDS = os.path.join(BASE_PATH, "sounds", "effects")
+switch_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "interaction.wav"))
+scary_bell = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "scary_bell.wav"))
+
 # Rozmiar jednego przycisku
 digit_width, digit_height = digit_images[0].get_size()
 
@@ -80,10 +86,12 @@ while running:
                     code[i] += 1
                     if code[i] > 9:
                         code[i] = 0
+                    switch_sound.play()
 
         if check_code(code) and result == 0:
             #print("Brawo! Kod poprawny!")
             result = 1
+            scary_bell.play()
             #print(result)
 
 

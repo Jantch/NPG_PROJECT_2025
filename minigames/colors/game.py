@@ -3,7 +3,7 @@ import pygame, sys, random, os
 # --- Inicjalizacja Pygame ---
 pygame.init()
 SCREEN_WIDTH, SCREEN_HEIGHT = 300, 300
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), pygame.NOFRAME)
 pygame.display.set_caption("Puzzle 3x3 z ramką")
 clock = pygame.time.Clock()
 
@@ -38,6 +38,13 @@ frame_path = os.path.join(IMAGE_DIR, "frame.png")
 frame_img = pygame.image.load(frame_path).convert_alpha()
 # Skaluje ramkę do wymiarów całego ekranu
 frame_img = pygame.transform.smoothscale(frame_img, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
+#Wczytanie dźwięków
+BASE_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
+BASE_PATH_SOUNDS = os.path.join(BASE_PATH, "sounds", "effects")
+move_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "colors_sound.wav"))
+place_sound = pygame.mixer.Sound(os.path.join(BASE_PATH_SOUNDS, "tictactoe_click.wav"))
+place_sound.set_volume(0.3)
 
 # Margines wewnątrz ramki i rozmiar pól w pikselach
 FRAME_BORDER = 39
@@ -86,6 +93,7 @@ while running:
                     mx, my = ev.pos
                     offset_x = sq.rect.x - mx
                     offset_y = sq.rect.y - my
+                    move_sound.play()  #PODNIESIENIE
                     break
 
         elif ev.type == pygame.MOUSEBUTTONUP and selected:
@@ -104,6 +112,7 @@ while running:
                             FRAME_BORDER + other.col * CELL_SIZE,
                             FRAME_BORDER + other.row * CELL_SIZE
                         )
+                        place_sound.play()  #ZAMIANA
                         break
             # Przywracamy wybrany kwadrat na aktualne pole
             selected.rect.topleft = (
@@ -152,4 +161,4 @@ while running:
     clock.tick(60)
 
 pygame.quit()
-sys.exit()
+sys.exit(solved)

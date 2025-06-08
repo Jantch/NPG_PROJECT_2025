@@ -14,7 +14,7 @@ BOARD_W = WIDTH  - 2*BOARD_X
 BOARD_H = HEIGHT - 2*BOARD_Y
 CELL    = BOARD_W // 3
 
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.NOFRAME)
 pygame.display.set_caption("Kółko i Krzyżyk")
 
 FONT = pygame.font.SysFont(None, 36)
@@ -25,19 +25,18 @@ SYMBOL_OFFSETS = {'X': (0, 0), 'O': (0, 0)}
 
 # ścieżki do plików
 BASE_PATH        = os.path.dirname(__file__)
-SOUND_PATH = os.path.join(BASE_PATH, '..', '..', 'sounds', 'effects', 'tictactoe_click.wav')
+SOUND_PATH       = os.path.join(BASE_PATH, '..', '..', 'sounds', 'effects', 'tictactoe_click.wav')
 BACKGROUND_PATH  = os.path.join(BASE_PATH, "static", "image.png")
 O_IMG_PATH       = os.path.join(BASE_PATH, "static", "circle.png")
 X_IMG_PATH       = os.path.join(BASE_PATH, "static", "cross.png")
 
 # --- ŁADOWANIE ZASOBÓW ---
-# tło
 background = pygame.image.load(BACKGROUND_PATH).convert()
 background = pygame.transform.scale(background, (WIDTH, HEIGHT))
+
 click = pygame.mixer.Sound(SOUND_PATH)
 click.set_volume(0.2)
 
-# symbole
 symbol_size = int(CELL * SYMBOL_SCALE)
 
 o_img = pygame.image.load(O_IMG_PATH).convert_alpha()
@@ -52,10 +51,13 @@ game_over, winner    = False, None
 draw_flag            = False
 
 # dla opóźnienia ruchu komputera
-COMPUTER_DELAY       = 1000  # ms
+COMPUTER_DELAY        = 1000  # ms
 pending_computer_move = False
 computer_move_time    = 0
 computer_move_pos     = None
+
+# nowa zmienna do odliczania czasu od zakończenia gry
+game_over_time = None
 
 def draw_board():
     screen.blit(background, (0, 0))
@@ -88,11 +90,12 @@ def check_winner():
     if all(board[r][c] is not None for r in range(3) for c in range(3)):
         draw_flag = True
         game_over = True
+
 waiting = False
+
 # --- GŁÓWNA PĘTLA ---
 running = True
 while running:
-    result = 0
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -102,16 +105,14 @@ while running:
             if waiting:
                 continue
             mx, my = event.pos
-            # sprawdź kliknięcie wewnątrz planszy
             if BOARD_X <= mx < BOARD_X+BOARD_W and BOARD_Y <= my < BOARD_Y+BOARD_H:
                 col = (mx - BOARD_X) // CELL
                 row = (my - BOARD_Y) // CELL
                 if board[row][col] is None:
                     board[row][col] = 'X'
-                    click.play()    #dźwięk
+                    click.play()
                     check_winner()
                     if not game_over:
-                        # zaplanuj ruch komputera
                         empty = [(r,c) for r in range(3) for c in range(3) if board[r][c] is None]
                         if empty:
                             pending_computer_move = True
@@ -120,11 +121,12 @@ while running:
 
         # restart
         elif event.type == pygame.KEYDOWN and event.key == pygame.K_r:
-            board[:]             = [[None]*3 for _ in range(3)]
-            game_over, winner    = False, None
-            draw_flag            = False
+            board[:]              = [[None]*3 for _ in range(3)]
+            game_over, winner     = False, None
+            draw_flag             = False
             pending_computer_move = False
             computer_move_pos     = None
+            game_over_time        = None
 
     # opóźniony ruch komputera
     if pending_computer_move and not game_over:
@@ -132,33 +134,33 @@ while running:
         if pygame.time.get_ticks() - computer_move_time >= COMPUTER_DELAY:
             r, c = computer_move_pos
             board[r][c] = 'O'
-            click.play()    #dźwięk
+            click.play()
             check_winner()
             pending_computer_move = False
             computer_move_pos     = None
             waiting = False
 
-    # rysuj i wyświetl komunikat końcowy
+    # rysowanie planszy i komunikatu końcowego
     draw_board()
     if game_over:
-        # 1) przyciemnij cały ekran
-        overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)  # Surface z alpha
-        overlay.fill((0, 0, 0, 180))  # czarne tło z alpha=180/255
+        # przyciemnienie ekranu
+        overlay = pygame.Surface((WIDTH, HEIGHT), pygame.SRCALPHA)
+        overlay.fill((0, 0, 0, 180))
         screen.blit(overlay, (0, 0))
 
-        # 2) przygotuj własną czcionkę i kolor tekstu
+        # renderowanie tekstu z cieniem
         end_font = pygame.font.SysFont("arial", 50, bold=True)
-        # zmień treść na dowolną:
         if winner == 'X':
             msg = "Trafiłeś! Krzyżyk wygrywa!"
             result = 1
         elif winner == 'O':
             msg = "Komputer wygrywa..."
+            result = 0
         else:
             msg = "Remis! Spróbuj jeszcze raz."
-        # renderuj biały tekst ze cieniem
+            result = 0
+
         text = end_font.render(msg, True, (255, 255, 255))
-        # dla lepszego kontrastu zrób cień:
         shadow = end_font.render(msg, True, (0, 0, 0))
         text_rect = text.get_rect(center=(WIDTH // 2, HEIGHT // 2))
         shadow_rect = text_rect.copy()
@@ -167,8 +169,11 @@ while running:
         screen.blit(shadow, shadow_rect)
         screen.blit(text, text_rect)
 
-
-
+        # odliczanie 3 sekund przed zamknięciem
+        if game_over_time is None:
+            game_over_time = pygame.time.get_ticks()
+        elif pygame.time.get_ticks() - game_over_time >= 3000:
+            running = False
 
     pygame.display.flip()
 
