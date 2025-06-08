@@ -8,15 +8,15 @@ pygame.display.set_caption("Puzzle 3x3 z ramką")
 clock = pygame.time.Clock()
 
 # --- Kolory kwadratów ---
-RED     = (255,   0,   0)
-GREEN   = (  0, 255,   0)
-BLUE    = (  0,   0, 255)
-YELLOW  = (255, 255,   0)
-ORANGE  = (255, 165,   0)
-PURPLE  = (128,   0, 128)
-CYAN    = (  0, 255, 255)
-MAGENTA = (255,   0, 255)
-BROWN   = (165,  42,  42)
+RED     = (134, 89, 45)
+GREEN   = (51, 204, 51)
+BLUE    = (255, 255, 0)
+YELLOW  = (255, 128, 0)
+ORANGE  = (255, 173, 51)
+PURPLE  = (0, 204, 255)
+CYAN    = (0, 122, 153)
+MAGENTA = (0, 77, 0)
+BROWN   = (77, 255, 77)
 colors = [RED, GREEN, BLUE, YELLOW, ORANGE, PURPLE, CYAN, MAGENTA, BROWN]
 
 # Docelowy układ kolorów (po wierszach)
@@ -142,7 +142,7 @@ while running:
 
     if solved:
         msg = font.render("Gratulacje!", True, (0, 0, 0))
-        rect = msg.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2))
+        rect = msg.get_rect(center=(SCREEN_WIDTH//1.5, SCREEN_HEIGHT//1.5))
         screen.blit(msg, rect)
         pygame.display.flip()
         pygame.time.wait(2000)
