@@ -154,7 +154,7 @@ while running:
         rect = msg.get_rect(center=(SCREEN_WIDTH//1.5, SCREEN_HEIGHT//1.5))
         screen.blit(msg, rect)
         pygame.display.flip()
-        pygame.time.wait(2000)
+        pygame.time.wait(3000)
         running = False
 
     pygame.display.flip()
