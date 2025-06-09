@@ -150,9 +150,24 @@ while running:
             break
 
     if solved:
-        msg = font.render("Gratulacje!", True, (0, 0, 0))
-        rect = msg.get_rect(center=(SCREEN_WIDTH//1.5, SCREEN_HEIGHT//1.5))
-        screen.blit(msg, rect)
+        # wybierz większy rozmiar fontu
+        font_size = 80
+        font = pygame.font.SysFont(None, font_size)  # możesz tu podać nazwę czcionki zamiast None
+
+        text = "Gratulacje!"
+        # najpierw renderujemy cień (np. w ciemnoszarym kolorze)
+        shadow_color = (50, 50, 50)
+        shadow_surf = font.render(text, True, shadow_color)
+        shadow_rect = shadow_surf.get_rect(center=(SCREEN_WIDTH // 2 + 4, SCREEN_HEIGHT // 2 + 4))
+
+        # potem renderujemy właściwy tekst na biało lub czarno
+        text_color = (255, 255, 255)
+        msg_surf = font.render(text, True, text_color)
+        msg_rect = msg_surf.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
+
+        # wyświetlamy cień, a na wierzchu główny tekst
+        screen.blit(shadow_surf, shadow_rect)
+        screen.blit(msg_surf, msg_rect)
         pygame.display.flip()
         pygame.time.wait(3000)
         running = False
